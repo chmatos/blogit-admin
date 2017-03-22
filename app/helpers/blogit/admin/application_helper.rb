@@ -16,6 +16,12 @@ module Blogit
         options[:class] = Array(options[:class]) + [ "muted_text" ]
         content_tag(:div, content, options)
       end
+
+    def format_content(content = nil, &block)
+      content = capture(&block) if block_given?
+      parser  = Blogit::configuration.default_parser_class.new(content)
+      parser.parsed.to_s.html_safe
+    end      
       
     end
   end
